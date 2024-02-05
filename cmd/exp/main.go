@@ -1,9 +1,13 @@
-package mian
+package main
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+)
 
-func mian() {
-	err := Createuser()
+func main() {
+	err := CreateOrg()
+	fmt.Print(err)
 }
 
 func Connect() error {
@@ -13,8 +17,17 @@ func Connect() error {
 func Createuser() error {
 	err := Connect()
 	if err != nil {
-		return err
+		// return err
+		return fmt.Errorf("create user: %w", err)
 	}
 	// ...
+	return nil
+}
+
+func CreateOrg() error {
+	err := Createuser()
+	if err != nil {
+		return fmt.Errorf("creaete org: %w", err)
+	}
 	return nil
 }
