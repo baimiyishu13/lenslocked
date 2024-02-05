@@ -25,33 +25,35 @@ func executeTemplate(w http.ResponseWriter, filepath string) {
 }
 
 // 基本的 web 应用程序
+// 主 界面
 func homeHandler(w http.ResponseWriter, r *http.Request) {
-	executeTemplate(w, "./templates/home.gohtml")
+	tplPath := filepath.Join("templates", "gohtml")
+	executeTemplate(w, tplPath)
 }
 
-// 另一个 界面
-func cantactHandler(w http.ResponseWriter, r *http.Request) {
-	// executeTemplate(w, "./templates/contact.gohtml")
+// 联系 界面
+func contactHandler(w http.ResponseWriter, r *http.Request) {
 	tplpath := filepath.Join("templates", "contact.gohtml")
 	executeTemplate(w, tplpath)
 }
 
 // FQA 界面
 func fqaHandler(w http.ResponseWriter, r *http.Request) {
-	executeTemplate(w, "./templates/fqa.gohtml")
+	tplpath := filepath.Join("templates", "fqa.gohtml")
+	executeTemplate(w, tplpath)
 }
 
-// Gin
-
+// chi
 func main() {
 	r := chi.NewRouter()
 	r.Get("/", homeHandler)
-	r.Get("/cantact", cantactHandler)
+	r.Get("/contact", contactHandler)
 	r.Get("/fqa", fqaHandler)
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		// w.Write([]byte("404"))
 		http.Error(w, "Page not found", http.StatusNotFound)
 	})
+
 	fmt.Println("Starting the server on 3000 ...")
 	http.ListenAndServe(":3000", r)
 }
