@@ -18,13 +18,19 @@ func main() {
 	// parse tpl
 
 	r.Get("/", controllers.StaticHandler(
-		views.Must(views.ParseFS(templates.FS, "home.gohtml", "layout-parts.gohtml"))))
+		views.Must(views.ParseFS(templates.FS,
+			"home.gohtml", "tailwind.gohtml",
+		))))
 
 	r.Get("/contact", controllers.StaticHandler(
-		views.Must(views.ParseFS(templates.FS, "contact.gohtml", "layout-parts.gohtml"))))
+		views.Must(views.ParseFS(templates.FS,
+			"contact.gohtml", "tailwind.gohtml",
+		))))
 
 	r.Get("/fqa", controllers.FQA(
-		views.Must(views.ParseFS(templates.FS, "fqa.gohtml"))))
+		views.Must(views.ParseFS(templates.FS,
+			"fqa.gohtml", "tailwind.gohtml",
+		))))
 
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Page not found", http.StatusNotFound)

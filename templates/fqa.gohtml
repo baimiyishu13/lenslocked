@@ -1,3 +1,4 @@
+{{template "header"}}
 
 <h1> FQA Page</h1>
 <hr>
@@ -6,6 +7,8 @@
         {{template "qa" .}}
     {{end}}
 </ul>
+{{template "footer"}}
+
 
 {{define "qa"}}
 <li>
@@ -15,3 +18,5 @@
     </ul>
 </li>
 {{end}}
+
+
