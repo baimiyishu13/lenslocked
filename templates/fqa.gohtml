@@ -1,4 +1,16 @@
-<h1> FQA </h1>
+<h1> FQA Page</h1>
 <hr>
-<h2> 该项目的目的是什么？</h2>
-<p>Go 通过启用工具、自动执行代码格式化等日常任务以及消除大型代码库工作的障碍，为工作中的程序员提供更多帮助。</p>
+<ul>
+    {{range .}}
+        {{template "qa" .}}
+    {{end}}
+</ul>
+
+{{define "qa"}}
+<li>
+    <b>{{.Question}}</b>
+    <ul>
+       <li> {{.Answer}} </li>
+    </ul>
+</li>
+{{end}}
