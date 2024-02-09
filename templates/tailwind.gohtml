@@ -153,18 +153,30 @@
 
 <!--  尾部信息  -->
 {{define "footer"}}
-<footer class="bg-gray-800">
-    <div class="container px-10 flex py-5 gap-3">
-        <div class="text-white text-xs sm:text-base">
-            <p>
-                <strong>Copyright &copy; 2024-2028 . All rights reserved.</strong>
-            </p>
-            <p>
-                实验项目 - web 开发 - Go
-            </p>
-        </div>
+
+
+<footer class="bg-white rounded-lg shadow m-4 dark:bg-gray-800">
+    <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
+      <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2024 <a href="/" class="hover:underline">Paddle™</a>. All Rights Reserved.
+    </span>
+    <ul class="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0">
+        <li>
+            <a href="#" class="hover:underline me-4 md:me-6">关于</a>
+        </li>
+        <li>
+            <a href="#" class="hover:underline me-4 md:me-6">隐私政策</a>
+        </li>
+        <li>
+            <a href="#" class="hover:underline me-4 md:me-6">许可</a>
+        </li>
+        <li>
+            <a href="#" class="hover:underline">其他</a>
+        </li>
+    </ul>
     </div>
 </footer>
+
+
 </body>
 </html>
 {{end}}
