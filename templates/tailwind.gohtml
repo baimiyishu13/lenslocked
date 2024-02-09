@@ -1,4 +1,4 @@
-/* <--! 头部信息  --> */
+<!-- 头部 -->
 {{define "header"}}
 <!doctype html>
 <html>
@@ -9,7 +9,7 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
 <body>
-/* <--! 默认导航栏  --> */
+<!--  默认导航栏  --> 
 <header class="bg-gray-800 sticky top-0 z-10 ">
     <div class="container max-w-full px-20 flex flex-row items-center space-x-8 py-5 " >
         <span class="clickable-wrapper">
@@ -46,7 +46,7 @@
 </header>
 {{end}}
 
-/* <--! 辅助导航  --> */
+<!-- 辅助导航  --> 
 {{define "assist"}}
 <section class="hero">
     <div class="container text-white max-w-full px-20">
@@ -74,7 +74,7 @@
     </div>
 {{end}}
 
-/* <--! Home页面  --> */
+<!--  Home页面  --> 
 {{define "home"}}
     <!-- Sign in 表单 -->
     <div id="authentication-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -148,10 +148,10 @@
 
 {{end}}
 
-/* <--! TODO: 其他页面内容  --> */
+<!--  TODO: 其他页面内容  --> 
 
 
-/* <--! 尾部信息  --> */
+<!--  尾部信息  -->
 {{define "footer"}}
 <footer class="bg-gray-800">
     <div class="container px-10 flex py-5 gap-3">
