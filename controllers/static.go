@@ -3,19 +3,17 @@ package controllers
 import (
 	"html/template"
 	"net/http"
-
-	"github.com/baimiyishu13/lenslocked/views"
 )
 
 // 闭包
-func StaticHandler(tpl views.Template) http.HandlerFunc {
+func StaticHandler(tpl Template) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		tpl.Execute(w, nil)
 	}
 
 }
 
-func FQA(tpl views.Template) http.HandlerFunc {
+func FQA(tpl Template) http.HandlerFunc {
 	questions := []struct {
 		Question string
 		Answer   template.HTML
