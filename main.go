@@ -27,6 +27,13 @@ func main() {
 			"contact.gohtml", "tailwind.gohtml",
 		))))
 
+	userC := controllers.Users{}
+	userC.Templates.New = views.Must(views.ParseFS(
+		templates.FS,
+		"signup.gohtml", "tailwind.gohtml",
+	))
+	r.Get("/signup", userC.New)
+
 	r.Get("/fqa", controllers.FQA(
 		views.Must(views.ParseFS(templates.FS,
 			"fqa.gohtml", "tailwind.gohtml",
