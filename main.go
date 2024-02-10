@@ -33,6 +33,7 @@ func main() {
 		"signup.gohtml", "tailwind.gohtml",
 	))
 	r.Get("/signup", userC.New)
+	r.Post("/users", userC.Create)
 
 	r.Get("/fqa", controllers.FQA(
 		views.Must(views.ParseFS(templates.FS,
