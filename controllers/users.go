@@ -12,8 +12,13 @@ type Users struct {
 }
 
 func (u Users) New(w http.ResponseWriter, r *http.Request) {
+	// 实现预填充
+	var data struct {
+		Email string
+	}
+	data.Email = r.FormValue("email")
 	//需要一个视图渲染
-	u.Templates.New.Execute(w, nil)
+	u.Templates.New.Execute(w, data)
 }
 
 func (u Users) Create(w http.ResponseWriter, r *http.Request) {
@@ -24,5 +29,4 @@ func (u Users) Create(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Fprintln(w, "Email: ", r.FormValue("email"))
 	fmt.Fprintln(w, "Password: ", r.FormValue("password"))
-	fmt.Fprintln(w, "Repeat-password: ", r.FormValue("repeat-password"))
 }
