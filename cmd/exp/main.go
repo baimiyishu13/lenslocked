@@ -27,33 +27,36 @@ func main() {
 
 	fmt.Println("Connected!")
 
-	// Create database
-	_, err = dbpool.Exec(context.Background(), "create database users;")
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Exec failed: %v\n", err)
-		os.Exit(1)
-	}
-
 	// Create table
-	_, err = dbpool.Exec(context.Background(), "CREATE TABLE users (id SERIAL PRIMARY KEY,age INT,firstname TEXT NOT NULL,lastname TEXT NOT NULL,email TEXT UNIQUE);")
+	_, err = dbpool.Exec(context.Background(), `
+		CREATE TABLE IF NOT EXISTS users (
+			id SERIAL PRIMARY KEY,
+			name TEXT UNIQUE NOT NULL,
+			email TEXT UNIQUE NOT NULL
+		);
 
+		CREATE TABLE IF NOT EXISTS orders (
+			id SERIAL PRIMARY KEY,
+			user_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+			amonut INT NOT NULL,
+			description TEXT NOT NULL
+		);
+		`)
+
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Exec failed: %v\n", err)
+		// os.Exit(1)
+		return
+	}
+
+	// Insert some date ...
+	name := "JonA"
+	email := "JonA@gmail.com"
+	_, err = dbpool.Exec(context.Background(), `
+	INSERT INTO users (name, email) 
+	VALUES ($1, $2);`, name, email)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Exec failed: %v\n", err)
 		os.Exit(1)
 	}
-
-	// Insert data
-	_, err = dbpool.Exec(context.Background(), "INSERT INTO users (age, firstname, lastname, email) VALUES(30, 'jon', 'jontom', 'jontom@test.com');")
-
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Exec failed: %v\n", err)
-		os.Exit(1)
-	}
-	// Select users from database
-	_, err = dbpool.Exec(context.Background(), "SELECT * FROM users;")
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Exec failed: %v\n", err)
-		os.Exit(1)
-	}
-
 }
