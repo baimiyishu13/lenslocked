@@ -27,6 +27,10 @@ func main() {
 			"contact.gohtml", "tailwind.gohtml",
 		))))
 
+	r.Get("/documentation", controllers.StaticHandler(
+		views.Must(views.ParseFS(templates.FS,
+			"documentation.gohtml", "tailwind.gohtml",
+		))))
 	userC := controllers.Users{}
 	userC.Templates.New = views.Must(views.ParseFS(
 		templates.FS,

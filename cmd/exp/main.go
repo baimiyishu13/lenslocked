@@ -50,10 +50,16 @@ func main() {
 	}
 
 	// Insert some date ...
-	name := "JonA"
-	email := "JonA@gmail.com"
+	name := "','');DROP TABLE users CASCADE; --"
+	email := "JonD@gmail.com"
+	// queru := fmt.Sprintf(`
+	// 	Insert into users (name, email)
+	// 	VALUES ('%s', '%s');
+	// `, name, email)
+	// fmt.Printf("Execqueru: %s\n", queru)
+	// _, err = dbpool.Exec(context.Background(), queru)
 	_, err = dbpool.Exec(context.Background(), `
-	INSERT INTO users (name, email) 
+	INSERT INTO users (name, email)
 	VALUES ($1, $2);`, name, email)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Exec failed: %v\n", err)
