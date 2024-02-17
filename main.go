@@ -43,10 +43,12 @@ func main() {
 		views.Must(views.ParseFS(templates.FS,
 			"fqa.gohtml", "tailwind.gohtml",
 		))))
+
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Page not found", http.StatusNotFound)
 	})
 
 	fmt.Println("Starting the server on 3000 ...")
 	http.ListenAndServe(":3000", r)
+
 }

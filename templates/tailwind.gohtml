@@ -151,6 +151,83 @@
 
 <!--  TODO: 其他页面内容  --> 
 
+{{define "document"}}
+    <main class="bg-gray-100 md:pb-7 flex-grow text-black">
+        <div class="container">
+            <div class="flex md:gap-6">
+                <aside class="hidden md:block">
+                    <div class="bg-gray-200 rounded-md p-5 pl-3 ">
+                        <div class="min-w-max">
+                            <ul class="mb-5">
+                                <li class="px-2 py-1.5 ">
+                                    <a href="/documentation/tutorials/" class="hover:underline flex items-center">
+                                        <span>教程</span>
+                                    </a>
+                                </li>
+                                <li class="px-2 py-1.5 ">
+                                    <a href="/documentation/overview/" class="hover:underline flex items-center">
+                                        <span>概述</span>
+                                    </a>
+                                </li>
+
+                                <li class="px-2 py-1.5 ">
+                                    <a href="/documentation/troubleshooting/" class="hover:underline flex items-center">
+                                        <span>故障排除</span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <h2 class="text-gray-800 font-bold pl-2">入门</h2>
+                            <ul class="mb-3 pl-4 py-2">
+                                <li class="px-2 py-1.5  p-0.5">
+                                    <a href="/documentation/getting_started/installation/" class="hover:underline">安装</a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </aside>
+                
+                
+                <div class="overflow-x-auto md:flex-grow">
+                    <div class="bg-white rounded-md p-5 md:p-9 mx-6 md:mx-0">
+                        <div class="content mt-2">
+                            <h6 data-parent="" class="capitalize font-medium text-sm text-gray-700"></h6> 
+                            <h1 id="the-buffalo-documentation">The TEST、 Documentation</h1>
+                            <p>欢迎来到 Paddle 文档。在这里，您将找到一系列有关 Paddle 入门的有用信息，旨在帮助您充分利用 Paddle 框架及其功能。</p>
+                            <div class="card bg-blue-100 mb-4 mt-6 hover:border hover:border-blue-500 rounded-lg p-5 pt-4" >
+                                <h4 class="mt-0 mb-0"> 入门 </h4>
+                                开始使用 Paddle
+                                <a href="/documentation/getting_started/installation/" class="card hover:border-2 hover:border-blue-500">Read</a>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-x-3"> 
+                                <div class="card bg-blue-100 mb-4 rounded-lg p-5 pt-4" >
+                                    <h4 class="mt-0 mb-0"> Database</h4>
+                                    架构 ...
+                                    <a href="/documentation/database/buffalo-integration/" class="card hover:border-2 hover:border-blue-500">Read</a>
+                                </div>
+
+
+                                <div class="card bg-blue-100 mb-4 rounded-lg p-5 pt-4" >
+                                    <h4 class="mt-0 mb-0"> Request</h4>
+                                    要求
+                                    <a href="/documentation/request_handling/routing/" class="card hover:border-2 hover:border-blue-500">Read</a>
+                                </div>
+
+
+                                <div class="card bg-blue-100 mb-4 rounded-lg p-5 pt-4" >
+                                    <h4 class="mt-0 mb-0"> Deployment</h4>
+                                    部署
+                                    <a href="/documentation/deploy/packing/" class="card hover:border-2 hover:border-blue-500">Read</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>   
+    </main>  
+{{end}}
+
 
 <!--  尾部信息  -->
 {{define "footer"}}
