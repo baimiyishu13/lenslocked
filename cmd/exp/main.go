@@ -1,7 +1,6 @@
 package main
 
 import (
-	"database/sql"
 	"fmt"
 	"log"
 
@@ -10,39 +9,19 @@ import (
 	_ "github.com/jackc/pgx/v5/stdlib"
 )
 
-type PostgresConfig struct {
-	Host     string
-	Port     string
-	User     string
-	Password string
-	Database string
-	SSLMode  string
-}
-
-func (c PostgresConfig) Starting() string {
-	return fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s", c.Host, c.Port, c.User, c.Password, c.Database, c.SSLMode)
-}
-
 func main() {
-	cfg := PostgresConfig{
-		Host:     "localhost",
-		Port:     "5432",
-		User:     "root",
-		Password: "pgsql@QWE1113!",
-		Database: "lenslocked",
-		SSLMode:  "disable",
-	}
-	fmt.Println(cfg.Starting())
-	db, err := sql.Open("pgx", cfg.Starting())
+	cfg := models.DefaultPostgresConfig()
+	db, err := models.Open(cfg)
 	if err != nil {
 		log.Fatal("failed to connect to database: ", err)
 	}
+	fmt.Println("open database connection")
+
 	defer db.Close()
 	err = db.Ping()
 	if err != nil {
 		log.Fatal("failed to ping database: ", err)
 	}
-	fmt.Println("database connected")
 
 	us := models.UserService{
 		DB: db,
@@ -55,11 +34,19 @@ func main() {
 	// 		passwordHash TEXT UNIQUE NOT NULL
 	// 	);
 	// `)
+
+	_, err = us.DB.Exec(`
+	   Create TABLE IF NOT EXISTS users (
+		id SERIAL PRIMARY KEY,
+        email TEXT UNIQUE NOT NULL,
+        passwordHash TEXT UNIQUE NOT NULL
+	   );
+	`)
 	if err != nil {
-		log.Fatal("failed to create database: ", err)
+		log.Fatal("failed to create users table: ", err)
 	}
 
-	user, err := us.Create("bob2@bob.com", "bob2@bob123!")
+	user, err := us.Create("bob3@bob.com", "bob1@bob123!")
 	if err != nil {
 		log.Fatal("failed to create user: ", err)
 	}
