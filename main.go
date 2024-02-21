@@ -31,6 +31,7 @@ func main() {
 		views.Must(views.ParseFS(templates.FS,
 			"documentation.gohtml", "tailwind.gohtml",
 		))))
+
 	userC := controllers.Users{}
 	userC.Templates.New = views.Must(views.ParseFS(
 		templates.FS,

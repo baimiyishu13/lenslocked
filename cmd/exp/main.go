@@ -1,100 +1,67 @@
 package main
 
 import (
-	"context"
+	"database/sql"
 	"fmt"
-	"os"
+	"log"
 
-	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/baimiyishu13/lenslocked/models"
+
+	_ "github.com/jackc/pgx/v5/stdlib"
 )
 
+type PostgresConfig struct {
+	Host     string
+	Port     string
+	User     string
+	Password string
+	Database string
+	SSLMode  string
+}
+
+func (c PostgresConfig) Starting() string {
+	return fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s", c.Host, c.Port, c.User, c.Password, c.Database, c.SSLMode)
+}
+
 func main() {
-	// export DATABASE_URL='postgres://username:password@localhost:5432/database_name'
-	// 从环境变量中获取数据库连接信息
-	dbpool, err := pgxpool.New(context.Background(), os.Getenv("DATABASE_URL"))
+	cfg := PostgresConfig{
+		Host:     "localhost",
+		Port:     "5432",
+		User:     "root",
+		Password: "pgsql@QWE1113!",
+		Database: "lenslocked",
+		SSLMode:  "disable",
+	}
+	fmt.Println(cfg.Starting())
+	db, err := sql.Open("pgx", cfg.Starting())
 	if err != nil {
-		// 如果创建连接池出错，打印错误信息并退出程序
-		fmt.Fprintf(os.Stderr, "Unable to create connection pool: %v\n", err)
-		os.Exit(1)
+		log.Fatal("failed to connect to database: ", err)
 	}
-	defer dbpool.Close() // 确保在程序退出时关闭连接池，释放资源
-
-	err = dbpool.Ping(context.Background())
+	defer db.Close()
+	err = db.Ping()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Ping failed: %v\n", err)
+		log.Fatal("failed to ping database: ", err)
+	}
+	fmt.Println("database connected")
+
+	us := models.UserService{
+		DB: db,
 	}
 
-	fmt.Println("Connected!")
-
-	// Create table
-	_, err = dbpool.Exec(context.Background(), `
-		CREATE TABLE IF NOT EXISTS users (
-			id SERIAL PRIMARY KEY,
-			name TEXT UNIQUE NOT NULL,
-			email TEXT UNIQUE NOT NULL
-		);
-
-		CREATE TABLE IF NOT EXISTS orders (
-			id SERIAL PRIMARY KEY,
-			user_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-			amonut INT NOT NULL,
-			description TEXT NOT NULL
-		);
-		`)
-
+	// _, err = us.DB.Exec(`
+	// 	Create TABLE users (
+	// 		id SERIAL PRIMARY KEY,
+	// 		email TEXT UNIQUE NOT NULL,
+	// 		passwordHash TEXT UNIQUE NOT NULL
+	// 	);
+	// `)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Exec failed: %v\n", err)
-		os.Exit(1)
+		log.Fatal("failed to create database: ", err)
 	}
 
-	// Insert some date ...
-	// // name := "','');DROP TABLE users CASCADE; --"
-	name := "New User2"
-	email := "NewUser2@gmail.com"
-
-	id := 1
-	row := dbpool.QueryRow(context.Background(), `
-		SELECT name,email
-		FROM users
-		WHERE id=$1`, id)
-	err = row.Scan(&name, &email)
+	user, err := us.Create("bob2@bob.com", "bob2@bob123!")
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Exec failed: %v\n", err)
-		os.Exit(1)
+		log.Fatal("failed to create user: ", err)
 	}
-	fmt.Println("User name: ", name, "User email: ", email)
-
-	type order struct {
-		ID          int
-		UserID      int
-		Amonut      int
-		Description string
-	}
-	var orders []order
-	userID := 1
-	rows, err := dbpool.Query(context.Background(), `
-        SELECT id, user_id, amonut, description
-        FROM orders
-        WHERE user_id=$1`, userID)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Exec failed: %v\n", err)
-		os.Exit(1)
-	}
-	defer rows.Close()
-	for rows.Next() {
-		var o order
-		err = rows.Scan(&o.ID, &o.UserID, &o.Amonut, &o.Description)
-		if err != nil {
-			fmt.Fprintf(os.Stderr, "Exec failed: %v\n", err)
-			os.Exit(1)
-		}
-		orders = append(orders, o)
-	}
-
-	err = rows.Err()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Exec failed: %v\n", err)
-		os.Exit(1)
-	}
-	fmt.Println(orders)
+	fmt.Println(*user)
 }
