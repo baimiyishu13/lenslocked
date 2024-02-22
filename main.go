@@ -70,8 +70,15 @@ func main() {
 		templates.FS,
 		"signup.gohtml", "tailwind.gohtml",
 	))
+	userC.Templates.SignIN = views.Must(views.ParseFS(
+		templates.FS,
+		"signin.gohtml", "tailwind.gohtml",
+	))
+
 	r.Get("/signup", userC.New)
 	r.Post("/users", userC.Create)
+	r.Get("/signin", userC.SignIN)
+	r.Post("/signin", userC.ProccesSignIN)
 
 	// FQA
 	r.Get("/fqa", controllers.FQA(
