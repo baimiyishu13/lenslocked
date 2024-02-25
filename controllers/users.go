@@ -64,8 +64,6 @@ func (u Users) ProccesSignIN(w http.ResponseWriter, r *http.Request) {
 		fmt.Print(err)
 		http.Error(w, "Something went wrong", http.StatusBadRequest)
 		return
-	} else {
-		http.Redirect(w, r, "/", http.StatusSeeOther)
 	}
 
 	cookie := http.Cookie{
