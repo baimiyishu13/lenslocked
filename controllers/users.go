@@ -64,6 +64,27 @@ func (u Users) ProccesSignIN(w http.ResponseWriter, r *http.Request) {
 		fmt.Print(err)
 		http.Error(w, "Something went wrong", http.StatusBadRequest)
 		return
+	} else {
+		http.Redirect(w, r, "/", http.StatusSeeOther)
 	}
+
+	cookie := http.Cookie{
+		Name:     "email",
+		Value:    user.Email,
+		Path:     "/",
+		HttpOnly: true, // 防止 XSS跨站脚本，只允许Http浏览器请求
+	}
+	http.SetCookie(w, &cookie)
 	fmt.Fprintf(w, "User authenticated: %v\n", user)
+}
+
+// 接受网络请求并且打印数据
+func (u Users) CurrentUsers(w http.ResponseWriter, r *http.Request) {
+	email, err := r.Cookie("email")
+	if err != nil {
+		fmt.Fprintf(w, "The email cookie could not be read")
+		return
+	}
+	fmt.Fprintf(w, "email cookie: %s\n", email.Value)
+	fmt.Fprintf(w, "Headers: %+v\n", r.Header)
 }

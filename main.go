@@ -79,6 +79,7 @@ func main() {
 	r.Post("/users", userC.Create)
 	r.Get("/signin", userC.SignIN)
 	r.Post("/signin", userC.ProccesSignIN)
+	r.Get("/users/me", userC.CurrentUsers)
 
 	// FQA
 	r.Get("/fqa", controllers.FQA(
