@@ -12,6 +12,7 @@ import (
 	"github.com/baimiyishu13/lenslocked/templates"
 	"github.com/baimiyishu13/lenslocked/views"
 	"github.com/go-chi/chi/v5"
+	"github.com/gorilla/csrf"
 )
 
 // chi
@@ -90,8 +91,23 @@ func main() {
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Page not found", http.StatusNotFound)
 	})
-
+	var csrfKey = "9IDAuQlSlpBasivx1O5m0xp0nEYkb3bG"
+	csrfMw := csrf.Protect(
+		[]byte(csrfKey),
+		// TODO: set this
+		csrf.Secure(false),
+	)
 	fmt.Println("Starting the server on 3000 ...")
-	http.ListenAndServe(":3000", r)
+	http.ListenAndServe(":3000", csrfMw(r))
 
 }
+
+// 计时器中间件
+// func TimerMiddleware(h http.HandlerFunc) http.HandlerFunc {
+// 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+// 		start := time.Now()
+// 		h.ServeHTTP(w, r)
+// 		elapsed := time.Since(start)
+// 		fmt.Println("Request Time:", elapsed)
+// 	})
+// }
