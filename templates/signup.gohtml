@@ -9,6 +9,9 @@
 </head>
 <body>
   <form class="max-w-sm mx-auto py-56" action="/users" method="post">
+    <div class="hidden">
+    {{.CSRFFiled}}
+    </div>
     <div class="mb-5">
       <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">你的邮件</label>
       <input type="email" name="email" id="email"

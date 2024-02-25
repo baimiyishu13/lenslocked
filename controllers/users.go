@@ -2,10 +2,12 @@ package controllers
 
 import (
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
 
 	"github.com/baimiyishu13/lenslocked/models"
+	"github.com/gorilla/csrf"
 )
 
 type Users struct {
@@ -19,9 +21,11 @@ type Users struct {
 func (u Users) New(w http.ResponseWriter, r *http.Request) {
 	// 实现预填充
 	var data struct {
-		Email string
+		Email     string
+		CSRFFiled template.HTML
 	}
 	data.Email = r.FormValue("email")
+	data.CSRFFiled = csrf.TemplateField(r)
 	//需要一个视图渲染
 	u.Templates.New.Execute(w, data)
 }
